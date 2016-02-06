@@ -16,3 +16,6 @@ To fix this you need to edit the Artwork.xml file inside the amb but only if you
 - only fields and colour values are currently animated.
 - turning on and off of colour values is not supported
 - next version might support base,peak, etc changes
+
+Video here:
+https://vimeo.com/154414010
