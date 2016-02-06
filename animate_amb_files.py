@@ -15,17 +15,13 @@
 ### User editable section
 
 # This file is the one that gets resaved eachframe so is the template
-start_amb = "AmberlightArtwork10_20k.amb"
+start_amb = "AmberlightArtwork10.amb"
 # These durations and filenames define the animation starting with start_amb file.
-anim_list = [[10, "AmberlightArtwork11.amb"],
-             [4,  "AmberlightArtwork12.amb"],
-             [4,  "AmberlightArtwork11.amb"],
-             [4,  "AmberlightArtwork12.amb"],
-             [8,  "AmberlightArtwork13.amb"],
-             [8,  "AmberlightArtwork14.amb"]
+anim_list = [[44, "AmberlightArtwork11.amb"],
+             [12, "AmberlightArtwork12.amb"]
              ]
 # The output file will have a numeric suffix attached to this filename
-output_prefix = "Amberlight_A"
+output_prefix = "AA"
 
 
 
@@ -150,32 +146,32 @@ def interp_field(pair, factor):
     " interp color value between the two using factor"
     first, second = pair
     xpos = first.find("x='")
-    x1 = int(first[xpos+3:first.find("'", xpos+3)])
+    x1 = float(first[xpos+3:first.find("'", xpos+3)])
     ypos = first.find("y='")
-    y1 = int(first[ypos+3:first.find("'", ypos+3)])
+    y1 = float(first[ypos+3:first.find("'", ypos+3)])
     mass_pos = first.find("mass='")
     mass1 = float(first[mass_pos+6:first.find("'", mass_pos+6)])
     dist_z_pos = first.find("dist_z='")
     dist_z1 = float(first[dist_z_pos+8:first.find("'", dist_z_pos+8)])
     dist_leng_pos = first.find("dist_leng='")
-    dist_leng1 = int(first[dist_leng_pos+11:first.find("'", dist_leng_pos+11)])
+    dist_leng1 = float(first[dist_leng_pos+11:first.find("'", dist_leng_pos+11)])
     xpos2 = second.find("x='")
-    x2 = int(second[xpos2+3:second.find("'", xpos2+3)])
+    x2 = float(second[xpos2+3:second.find("'", xpos2+3)])
     ypos = second.find("y='")
-    y2 = int(second[ypos+3:second.find("'", ypos+3)])
+    y2 = float(second[ypos+3:second.find("'", ypos+3)])
     mass_pos = second.find("mass='")
     mass2 = float(second[mass_pos+6:second.find("'", mass_pos+6)])
     dist_z_pos = second.find("dist_z='")
     dist_z2 = float(second[dist_z_pos+8:second.find("'", dist_z_pos+8)])
     dist_leng_pos = second.find("dist_leng='")
-    dist_leng2 = int(second[dist_leng_pos+11:second.find("'", dist_leng_pos+11)])
+    dist_leng2 = float(second[dist_leng_pos+11:second.find("'", dist_leng_pos+11)])
     #print x1,y1,mass1,dist_z1, dist_leng1
     #print x2,y2,mass2,dist_z2, dist_leng2
-    newx = int(x1 + (x2-x1)*factor)
-    newy = int(y1 + (y2-y1)*factor)
+    newx = float(x1 + (x2-x1)*factor)
+    newy = float(y1 + (y2-y1)*factor)
     newmass = mass1 + (mass2-mass1)*factor
     newdist_z = dist_z1 + (dist_z2-dist_z1)*factor
-    newdist_leng = int(dist_leng1 + (dist_leng2-dist_leng1)*factor)
+    newdist_leng = float(dist_leng1 + (dist_leng2-dist_leng1)*factor)
     #print"becomes", newx, newy, newmass, newdist_z, newdist_leng
     newvalue = "x='%d' y='%d' mass='%2.2f' dist_z='%2.2f' dist_leng='%d'" % (newx, newy, newmass, newdist_z, newdist_leng)
     return [first[xpos:first.rfind("'")+1], newvalue]
