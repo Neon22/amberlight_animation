@@ -1,19 +1,28 @@
+#!/usr/bin/python
+
+### This program makes it possible to animate Amberlights .amb files
+### - Edit just below to define the filenames and duratoins between them.
+### - Only linear interp is supported.
+###   Not all entites can be animated. Feel free to add more
+###
+### The amb file is a zip file. Inside is an Artwork.xml file which has all parameters exposed.
+### This program opens that, finds differences between files, and numerically interps between them.
+### The resulting amb files are numbered from 1 and constitute an animation.
+
+### The user has to manually open, render, and save the images from each of the interpolated amb files.
 
 
-# open and close zip file
-
-import zipfile
-import os.path
+### User editable section
 
 # This file is the one that gets resaved eachframe so is the template
 start_amb = "AmberlightArtwork10_20k.amb"
 # These durations and filenames define the animation starting with start_amb file.
 anim_list = [[10, "AmberlightArtwork11.amb"],
-             [4, "AmberlightArtwork12.amb"],
-             [4, "AmberlightArtwork11.amb"],
-             [4, "AmberlightArtwork12.amb"],
+             [4,  "AmberlightArtwork12.amb"],
+             [4,  "AmberlightArtwork11.amb"],
+             [4,  "AmberlightArtwork12.amb"],
              [8,  "AmberlightArtwork13.amb"],
-             [8, "AmberlightArtwork14.amb"]
+             [8,  "AmberlightArtwork14.amb"]
              ]
 # The output file will have a numeric suffix attached to this filename
 output_prefix = "Amberlight_A"
@@ -21,7 +30,11 @@ output_prefix = "Amberlight_A"
 
 
 ###----------------------------------------------------
+### Code
+import zipfile
+import os.path
 
+# for examination (unused)
 def open_ambi(fname):
     " look inside to see "
     datafname = "artwork.xml"
@@ -41,7 +54,7 @@ def extract_artwork_from_amb(fname, interior_fname = "artwork.xml"):
         zf = zipfile.ZipFile(fname)
         return zf.read(interior_fname)
 
-#
+# to make animations we need a base amb file without Atrwork.xml inside it
 def make_base_ambi_zip(ambfname, suffix='_base'):
     " extract any xml files from zip and resave without them with name suffix"
     zin = zipfile.ZipFile (ambfname, 'r')
@@ -56,6 +69,7 @@ def make_base_ambi_zip(ambfname, suffix='_base'):
     zin.close()
     return newname
 
+# make one per frame output
 def create_ambi(basename, artwork_list, base_suffix, namestub, idx=1):
     " artwork in list form. append to base file"
     label = "_%03d" % idx
@@ -95,7 +109,7 @@ def find_diff(data_A, data_B):
                 print "!! Can't interp:", lineA.strip()
     return changes
 
-
+# substitute matching values
 def subs(line, orig, new):
     " make one to one subs of values in line "
     print " Swapping", orig, new
@@ -168,7 +182,7 @@ def interp_field(pair, factor):
 
 
 def interp_amb(data_A, changes, factor):
-    " "
+    " Interp between two files. Changes already discovered. "
     data_A = data_A.splitlines()
     print " Changes:"
     for c in changes: print "", c
@@ -189,19 +203,21 @@ def interp_amb(data_A, changes, factor):
     return data_A
         
 
+
 ###-------------------
 if __name__ == "__main__":
     #open_ambi(fname)
-    numframes = 24 # how mny to interp over
     frame_id = 0
     base_suffix = "_base" # label for base zipfile
     fname = start_amb
     #
     total_frames = sum([a for a,ignore in anim_list])
     print "Processing", total_frames, "frames from", len(anim_list)+1, "files"
+    
     last = extract_artwork_from_amb(fname)
     basename = make_base_ambi_zip(fname, base_suffix)
     print " made base zipfile:", basename
+    
     for duration, next_amb in anim_list:
         # detect differences between two files
         artwork2 = extract_artwork_from_amb(next_amb)
@@ -218,3 +234,5 @@ if __name__ == "__main__":
             print "Writing frame", frame_id, "\n"
             create_ambi(basename, new_artwork, base_suffix, output_prefix, frame_id)
         last = artwork2
+        
+# now manually open, render, save each file
