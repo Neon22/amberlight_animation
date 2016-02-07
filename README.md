@@ -1,4 +1,4 @@
-# amberlight_animation
+# Amberlight Animation
 Animate between amb files using Amberlight from Escape motions
 - http://www.escapemotions.com/products/amberlight/
 
@@ -13,9 +13,9 @@ Edit the python file.
 To fix this you need to edit the Artwork.xml file inside the amb but only if you have this problem.
 (open a copy renamed from .amb to .zip. Artwork.xml is inside)
 
-- only fields and colour values are currently animated.
-- turning on and off of colour values is not supported
-- next version might support base,peak, etc changes
+- fields and colour values are currently animated.
+- turning on and off of colour values is not supported.
+- latest version supports base,peak, etc changes.
 
-Video here:
+Videos here:
 https://vimeo.com/154414010
